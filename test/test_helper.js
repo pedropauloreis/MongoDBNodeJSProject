@@ -11,8 +11,10 @@ before((done) => {
 
 
 
-beforeEach((done) => {
-    mongoose.connection.collections.users.drop(() => {
-        done();
-    });
+beforeEach(async () => {
+    const collections = Object.keys(mongoose.connection.collections)
+    for (const collectionName of collections) {
+      const collection = mongoose.connection.collections[collectionName]
+      await collection.deleteMany()
+    }
 });

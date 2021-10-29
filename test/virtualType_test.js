@@ -1,9 +1,9 @@
 const assert = require('assert');
-const UserModel = require('../src/userModel');
+const User = require('../src/model/User');
 
 describe('Handling Virtual Types', () => {
     it("Validates if ponstCount returns number of posts", async () => {
-        const user1 = new UserModel({ 
+        const user1 = new User({ 
             name: 'User',
             posts: [
                 {
@@ -18,7 +18,7 @@ describe('Handling Virtual Types', () => {
         });
         await user1.save();
 
-        const user2 = await UserModel.findOne({ name: 'User' });
+        const user2 = await User.findOne({ name: 'User' });
         assert(user2.postCount === user2.posts.length);
     });
  

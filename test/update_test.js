@@ -1,18 +1,18 @@
 const assert = require('assert');
-const UserModel = require('../src/userModel');
+const User = require('../src/model/User');
 
 
 describe('Updating records', () => {
     let user1;
 
     beforeEach(async () => {
-        user1 = new UserModel({ name: 'User', likes: 0});
+        user1 = new User({ name: 'User', likes: 0});
         await user1.save();
     });
 
     const assertName = async operation => {
         await operation;
-        const users = await UserModel.find({});
+        const users = await User.find({});
         assert(users.length === 1);
         assert(users[0].name === 'NotUserAnymore');
     }
@@ -27,22 +27,22 @@ describe('Updating records', () => {
     });
 
     it("Update with class method update", async () => {
-        await assertName(UserModel.update({ name: 'User'},{ name: 'NotUserAnymore'}));
+        await assertName(User.update({ name: 'User'},{ name: 'NotUserAnymore'}));
     });
 
     it("Update with class method findOneAndUpdate", async () => {
-        await assertName(UserModel.findOneAndUpdate({ name: 'User'},{ name: 'NotUserAnymore'}));
+        await assertName(User.findOneAndUpdate({ name: 'User'},{ name: 'NotUserAnymore'}));
     });
 
     it("Update with class method findByIdAndUpdate", async () => {
-        await assertName(UserModel.findByIdAndUpdate(user1.id,{ name: 'NotUserAnymore'}));
+        await assertName(User.findByIdAndUpdate(user1.id,{ name: 'NotUserAnymore'}));
     });
    
 
     it("Increment Users likes by 1", async () => {
-        await UserModel.update({ name: 'User' }, { $inc: { likes: 1 } });
+        await User.update({ name: 'User' }, { $inc: { likes: 1 } });
         
-        const user1 = await UserModel.findOne({ name: 'User' });
+        const user1 = await User.findOne({ name: 'User' });
         assert(user1.likes === 1);
     });
 });

@@ -1,11 +1,11 @@
 const assert = require('assert');
-const UserModel = require('../src/userModel');
+const User = require('../src/model/User');
 
 
 describe('Validating records', () => {
 
     it("Requires a user\'s name", () => {
-        const user1 = new UserModel({ name: undefined });
+        const user1 = new User({ name: undefined });
         const validationResult = user1.validateSync();
         const {message} = validationResult.errors.name;
         
@@ -13,7 +13,7 @@ describe('Validating records', () => {
     });
 
     it("Requires a user\'s name longer than 2 characters", () => {
-        const user1 = new UserModel({ name: 'Us' });
+        const user1 = new User({ name: 'Us' });
         const validationResult = user1.validateSync();
         const {message} = validationResult.errors.name;
         
@@ -21,7 +21,7 @@ describe('Validating records', () => {
     });
 
     it("Disallows invalid records from being saved", async () => {
-        const user1 = new UserModel({ name: 'Us'  });
+        const user1 = new User({ name: 'Us'  });
         
         try{
             await user1.save();
